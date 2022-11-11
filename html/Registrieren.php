@@ -131,7 +131,9 @@ button {
   .cancelbtn {   
         width: auto;   
         padding: 10px 18px;  
-        margin: 10px 5px;  
+        margin: 10px 5px;
+        background-color: #4CAF50;
+        
     }   
         
      
@@ -145,15 +147,19 @@ button {
     <div class="container">
    
             <label>Email : </label>   
-            <input type="text" placeholder="Enter Email" name="Email" required <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+            <input type="text" placeholder="Enter Email" name="username" required <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
             <span class="invalid-feedback"><?php echo $username_err; ?></span> 
             <label>Password : </label>   
             <input type="password" placeholder="Enter Password" name="password" required <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
             <span class="invalid-feedback"><?php echo $password_err; ?></span> 
-            <button type="submit">Registreiern</button value="Submit">     
-            <button onclick="window.location.href = 'C:/Users/felix/OneDrive/Desktop/Index/index.html';"  class="cancelbtn" > Cancel</button>
-</div<>    
- 
+            <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" placeholder="confirm Password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
+            <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+            </div>
+            <button type="submit">Registreiern</button value="Submit">
+            <input class="cancelbtn" type="button" value="Zurück" onClick="javascript:history.back()">
+</div<>  
 </body>
 </head>
 </html> 
