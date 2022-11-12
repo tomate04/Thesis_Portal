@@ -72,7 +72,7 @@
   </div>
   <div class="imgContainer">
     <div>
-        <img src="Images\Fh Flensburg_Logo.png"/>
+        <img src="Images/Fh Flensburg_Logo.png"/>
     </div>
     <h1 class="Title"> Thesis Portal </h1>  
     <div>
@@ -81,46 +81,74 @@
       <input class="button-orange" type="button" onclick="window.location.href='html/Registrieren.php'" value="Registreiern"/>
     </div>
 </div>
-    <form>  
+    <form method="post">  
         <tr >
             <td >
                  <h2 class="Suchfelder">Titel</h2>
-                 <p class="Suchfelder"> <input name="Titel" > </p>
+                 <p class="Suchfelder"> <input name="Titel_Suche" > </p>
+                 
             </td>
             <td >
                 <h2 class="Suchfelder">Professor</h2>
-                <p class="Suchfelder"><input name="Titel"> </p>
+                <p class="Suchfelder"><input name="Professor_Suche"> </p>
            </td>
            <td>
             <h2 class="Suchfelder">Firma</h2>
-            <p class="Suchfelder"><input name="Titel" placeholder="Nur wenn nötig"> </p>
+            <p class="Suchfelder"><input name="Firma_Suche" placeholder="Nur wenn nötig"> </p>
         </td>
         </tr>
         <tr>
             <td>
                   <h2>Fachbereich</h2>
                   <p>
-                    <select name="leistung" class="">
+                    <select name="Fachbereich_Suche" class="">
                         <option value="alle">alle anzeigen</option>
-                        <option value="ps1">Fachbereich 1</option>
-                        <option value="ps2">Fachbereich 2</option>
-                        <option value="ps3">Fachbereich 3</option>
-                        <option value="ps4">Fachbereich 4</option>
-                        <option value="ps5">Fachbereich 5</option>
+                        <option value="ps1">Fachbereich 1: Maschinenbau, Verfahrenstechnik und Maritime Technologien</option>
+                        <option value="ps2">Fachbereich 2: Energie und Biotechnologie</option>
+                        <option value="ps3">Fachbereich 3: Information und Kommunikation</option>
+                        <option value="ps4">Fachbereich 4: Wirtschaft</option>
+
                     </select>
                   </p>
             </td>
-        <input name="Button_Suche" class="button3" onclick="window.location.href='html/Suchergebnis.php'" style="margin-top: 25px" type="button" value="Suche starten" >  
+        <input name="Button_Suche" class="button3"  style="margin-top: 25px" type="submit" value="Suche starten" >  
     </form>
-    <h2>Suchergebins</h2>
-<table style="width:100%">
-  <tr>
-  <tr>
-  <th>Titel</th>
-  <th>Fachbereich</th>
-  <th>Studiengang</th>
-  </tr>
-  </tr>
-</table>     
+    <table name="suchergebnis" style="width:100%">
+  
+    <?php
+   
+    if(isset($_POST["Button_Suche"])) 
+    { require_once "C:/xampp/htdocs/Index-2/Index/html/config.php";
+      
+      $Titel=$_POST['Titel_Suche'];
+      $Professor=$_POST['Professor_Suche'];
+      $Firma=$_POST['Firma_Suche'];
+      $Fachbereich=$_POST['Fachbereich_Suche'];
+      
+      echo "<tr>";
+      echo "<td> Titel </td>";
+      echo "<td> Fachbereich </td>";
+      echo "<td> Studiengang </td>";
+      echo "<tr>";
+    
+
+      $result = mysqli_query($link,"SELECT * FROM abschlussarbeit Where Titel = '$Titel'");
+      
+      
+      
+      while($row = mysqli_fetch_array($result))
+      {
+      echo "<tr>";
+      echo "<td>" . $row['Titel'] . "</td>";
+      echo "<td>" . $row['Fachbereich'] . "</td>";
+      echo "<td>" . $row['Studiengang'] . "</td>";
+      echo "</tr>";
+      }
+      echo "</table>";
+      
+      mysqli_close($link); }
+
+?>
+    
 </body>     
 </html>  
