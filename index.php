@@ -6,26 +6,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">  
 <title> Thesis Portal </title>  
 <style>  
-.button1 {
-  background-color: rgb(6, 6, 193);
+.button-blau {
+  background-color: rgb(43, 47, 136);
   border: none;
   color: white;
   padding: 8px 35px;
   text-align: right;
   text-decoration: none;
   display: inline-block;
-  font-size: 10px
+  font-size: 10px;
+  border-radius: 18px;
   
 }
-.button2 {
-  background-color: rgb(193, 112, 6);
+.button-orange {
+  background-color: rgb(236, 103, 7);
   border: none;
   color: white;
   padding: 8px 35px;
   text-align: right;
   text-decoration: none;
   display: inline-block;
-  
+  border-radius: 18px;
   font-size: 10px;
 }
 .button3 {
@@ -76,15 +77,15 @@
     <h1 class="Title"> Thesis Portal </h1>  
     <div>
       <h1 style="text-align:center;"></h1>
-      <input class="button1" type="button" onclick="window.location.href='html/Login.php'" value="Login"/>
-      <input class="button2" type="button" onclick="window.location.href='html/Registrieren.php'" value="Registreiern"/>
+      <input class="button-blau" type="button" onclick="window.location.href='html/Login.php'" value="Login"/>
+      <input class="button-orange" type="button" onclick="window.location.href='html/Registrieren.php'" value="Registreiern"/>
     </div>
 </div>
     <form>  
         <tr >
             <td >
                  <h2 class="Suchfelder">Titel</h2>
-                 <p class="Suchfelder"> <input name="Titel"> </p>
+                 <p class="Suchfelder"> <input name="Titel" > </p>
             </td>
             <td >
                 <h2 class="Suchfelder">Professor</h2>
@@ -109,23 +110,16 @@
                     </select>
                   </p>
             </td>
-        <input class="button3" style="margin-top: 25px" type="submit" value="Suche starten">  
+        <input name="Button_Suche" class="button3" onclick="window.location.href='html/Suchergebnis.php'" style="margin-top: 25px" type="button" value="Suche starten" >  
     </form>
     <h2>Suchergebins</h2>
 <table style="width:100%">
   <tr>
-    <th>Titel</th>
-    <th>Professor</th>
-    <th>Fachberreich</th>
-    <th>Abstract</th>
-    <th>Firma</th>
-  </tr>
   <tr>
-    <td>Software entwicklung</td>
-    <td>Kai Peters</td>
-    <td>Fachbereich 4</td>
-    <td>Wie sich Softwareentwicklung 4</td>
-    <td>SAP</td>
+  <th>Titel</th>
+  <th>Fachbereich</th>
+  <th>Studiengang</th>
+  </tr>
   </tr>
 </table>     
 </body>     
