@@ -16,6 +16,7 @@
   display: inline-block;
   font-size: 10px;
   border-radius: 18px;
+  font-family: Arial, Helvetica, sans-serif;
   
 }
 .button-orange {
@@ -28,6 +29,7 @@
   display: inline-block;
   border-radius: 18px;
   font-size: 10px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .button3 {
   background-color: rgb(193, 47, 6);
@@ -37,7 +39,7 @@
   text-align: right;
   text-decoration: none;
   display: inline-block;
-  
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
 }
 
@@ -58,13 +60,36 @@
     text-align: Top;
     text-align: center;
     font-size: 20;
-    
+    font-family: Arial, Helvetica, sans-serif;
   }
 .Suchfelder {
     float: left;
     font-size: 10;
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
   }
+  
+  table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+th, td {
+  text-align: left;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: white;
+  color: rgb(43, 47, 136)
+ 
+}
+
 
 </style>   
 </head>    
@@ -126,13 +151,14 @@
       $Fachbereich=$_POST['Fachbereich_Suche'];
       
       echo "<tr>";
-      echo "<td> Titel </td>";
-      echo "<td> Fachbereich </td>";
-      echo "<td> Studiengang </td>";
+      echo "<th> Titel </th>";
+      echo "<th> Professor </th>";
+      echo "<th> Firma </th>";
+      echo "<th> Fachbereich </th>";
       echo "<tr>";
-    
+      
 
-      $result = mysqli_query($link,"SELECT * FROM abschlussarbeit Where Titel = '$Titel'");
+      $result = mysqli_query($link,"SELECT * FROM abschlussarbeit ");
       
       
       
@@ -140,11 +166,12 @@
       {
       echo "<tr>";
       echo "<td>" . $row['Titel'] . "</td>";
+      echo "<td>" . $row['Professor'] . "</td>";
+      echo "<td>" . $row['Firma'] . "</td>";
       echo "<td>" . $row['Fachbereich'] . "</td>";
-      echo "<td>" . $row['Studiengang'] . "</td>";
       echo "</tr>";
       }
-      echo "</table>";
+      
       
       mysqli_close($link); }
 
