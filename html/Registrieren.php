@@ -1,19 +1,19 @@
 <?php
-// Include config file
+// Datenbank konfig
 require_once "config.php";
  
-// Define variables and initialize with empty values
+// Varaible Definieren
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
  
-// Processing form data when form is submitted
+// Daten nach dem Button verabeiten
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
-    // Validate username
+    // Überprüfung der Email
     if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter a username.";
-    } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["username"]))){
-        $username_err = "Username can only contain letters, numbers, and underscores.";
+        $username_err = "Bitte geben sie eine Email ein";
+    } elseif(!preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', trim($_POST["username"]))){
+        $username_err = "Bitte geben sie eine Email adresse an ";
     } else{
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";
