@@ -143,7 +143,7 @@ th {
     <?php
    
     if(isset($_POST["Button_Suche"])) 
-    { require_once "C:/xampp/htdocs/Index-2/Index/html/config.php";
+    { require_once "html\config.php";
       
       $Titel=$_POST['Titel_Suche'];
       $Professor=$_POST['Professor_Suche'];
