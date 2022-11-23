@@ -27,15 +27,15 @@
             </td>
             <td >
                 <h2 class="Suchfelder">Professor</h2>
-                <select name="Fachbereich_Suche" class="" name="Betreuer">
-                        <option value="alle">Prof. Dr. rer. pol. Till Albert</option>
-                        <option value="alle">Prof. Dr. rer. pol. habil. Marcus Brandenburg</option>
-                        <option value="alle">Prof. Dr. Sönke Cordts</option>
-                        <option value="alle">Prof. Dr. rer. pol. Jan Gerken</option>
-                        <option value="alle">Prof. Dr. rer. pol., MBA Thorsten Kümper</option>
-                        <option value="alle">Prof. Dr. Andreas Rusnjak</option>
-                        <option value="alle">Prof. Dr. rer. pol. Lasse Tausch-Nebel</option>
-                        <option value="alle">Prof. Dr. rer. pol. Ulrich Welland</option>
+                <select  name="Betreuer" >
+                        <option >Prof. Dr. rer. pol. Till Albert</option>
+                        <option >Prof. Dr. rer. pol. habil. Marcus Brandenburg</option>
+                        <option >Prof. Dr. Sönke Cordts</option>
+                        <option >Prof. Dr. rer. pol. Jan Gerken</option>
+                        <option >Prof. Dr. rer. pol., MBA Thorsten Kümper</option>
+                        <option >Prof. Dr. Andreas Rusnjak</option>
+                        <option >Prof. Dr. rer. pol. Lasse Tausch-Nebel</option>
+                        <option >Prof. Dr. rer. pol. Ulrich Welland</option>
                 
                     </select>
            </td>
@@ -44,7 +44,9 @@
            <input name="Anfrage_Stelle" type="submit" value="Anfrage stellen" >
            </div>
         
-          
+      <form\>
+        
+      </form>    
            
 <?php
 
@@ -52,18 +54,34 @@ if(isset($_POST["Anfrage_Stelle"]))
 {
   
     require_once "config.php";
-    $Titel=$_POST['Titel'];
-  
-    $sql1 = "INSERT INTO anfragen (Thema, Betreuer, Student) VALUES ('$_POST[Titel]', '$_POST[Titel]', '$_POST[Titel]',)";
-    $sql2 = "INSERT INTO anfragen (Thema, Betreuer, Student) VALUES (Titel, 'test', 'test')";
-    
-    mysqli_query($link, $sql1);
-    mysqli_query($link, $sql2);
+   
+    $sql = "INSERT INTO anfragen (Thema, Betreuer, Student) VALUES (?, ?, ?)";
 
-    mysqli_close($link);
+    if($stmt = mysqli_prepare($link, $sql)){
+        
+       
+        
 
- 
+        mysqli_stmt_bind_param($stmt, "sss", $param_Titel, $param_Betreuer, $param_Studnet );
+        
+        // Parameter setzten
+        $param_Titel = $_POST['Titel'];
+        $param_Studnet = $_POST['Studnet'];
+        $param_Betreuer = $_POST['Betreuer'];
+      
+        
 
+        
+        if(mysqli_stmt_execute($stmt)){
+            
+            header("location: login.php");
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
+        }
+
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
 
 
 }
