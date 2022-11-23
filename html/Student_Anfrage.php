@@ -7,22 +7,27 @@
     <title>Anfrage</title>
 </head>
 <body>
-</div>
 
+<form method="post">
   <div>
-        <img src="Images/Fh Flensburg_Logo.png"/>
+        <img src="../Images/Fh Flensburg_Logo.png"/>
     </div>
     <h1 class="Title"> Status Portal </h1>  
     <div>
     <tr >
             <td >
                  <h2 class="Suchfelder">Titel</h2>
-                 <p class="Suchfelder"> <input name="Titel_Suche" > </p>
+                 <p class="Suchfelder"> <input name="Titel" > </p>
+                 
+            </td>
+            <td >
+                 <h2 class="Suchfelder">Studnet</h2>
+                 <p class="Suchfelder"> <input name="Studnet" > </p>
                  
             </td>
             <td >
                 <h2 class="Suchfelder">Professor</h2>
-                <select name="Fachbereich_Suche" class="">
+                <select name="Fachbereich_Suche" class="" name="Betreuer">
                         <option value="alle">Prof. Dr. rer. pol. Till Albert</option>
                         <option value="alle">Prof. Dr. rer. pol. habil. Marcus Brandenburg</option>
                         <option value="alle">Prof. Dr. Sönke Cordts</option>
@@ -34,36 +39,63 @@
                 
                     </select>
            </td>
-           <input name="Button_Suche" class="button3"  style="margin-top: 25px" type="submit" value="Anfrage stellen" >
-            <?php
+           
+           <div >
+           <input name="Anfrage_Stelle" type="submit" value="Anfrage stellen" >
+           </div>
+        
+          
+           
+<?php
+
+if(isset($_POST["Anfrage_Stelle"]))
+{
   
- 
-$to_email = "felixbloch13@gmail.com";
-$subject = "Anfrage für eine Abschlussarbeit";
-$body = "Hallo ich möchte gerne eine Abschlussarbeit bei Ihnen schreiben zu folgendem Thema";
-$headers = "From: sender\'s email";
- 
-if (mail($to_email, $subject, $body, $headers)) {
-    echo "Email successfully sent to $to_email...";
-} else {
-    echo "Email wurde verschickt.";
-}
     require_once "config.php";
+    $Titel=$_POST['Titel'];
+  
+    $sql1 = "INSERT INTO anfragen (Thema, Betreuer, Student) VALUES ('$_POST[Titel]', '$_POST[Titel]', '$_POST[Titel]',)";
+    $sql2 = "INSERT INTO anfragen (Thema, Betreuer, Student) VALUES (Titel, 'test', 'test')";
+    
+    mysqli_query($link, $sql1);
+    mysqli_query($link, $sql2);
 
-        $sql="SELECT * FROM professor "; 
-     $result = mysqli_query($link,"SELECT * FROM professor ");
+    mysqli_close($link);
+
+ 
+
+
+
+}
+
+    
+    
+//$to_email = "felixbloch13@gmail.com";
+//$subject = "Anfrage für eine Abschlussarbeit";
+//$body = "Hallo ich möchte gerne eine Abschlussarbeit bei Ihnen schreiben zu folgendem Thema";
+//$headers = "From: sender\'s email";
+ 
+//f (mail($to_email, $subject, $body, $headers)) {
+  ///  echo "Email successfully sent to $to_email...";
+//} else {
+//    echo "Email wurde verschickt.";
+//}
+  //  require_once "config.php";
+
+    //$sql="SELECT * FROM professor "; 
+    //$result = mysqli_query($link,"SELECT * FROM professor ");
      
  
     
 
-     $sql="SELECT * FROM professor "; 
+     //$sql="SELECT * FROM professor "; 
 
     
     
      
 
 
-     mysqli_close($link); 
+     //mysqli_close($link); 
 
 ?>
 </body>
