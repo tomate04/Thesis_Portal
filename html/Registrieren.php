@@ -1,8 +1,5 @@
 <?php
-// Datenbank konfig
 require_once "config.php";
- 
-// Varaible Definieren
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
  
@@ -15,71 +12,71 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } elseif(!preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', trim($_POST["username"]))){
         $username_err = "Bitte geben sie eine Email adresse an ";
     } else{
-        // Prepare a select statement
+        // Select Statmant vorbereiten
         $sql = "SELECT id FROM users WHERE username = ?";
         
         if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
+            
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
-            // Set parameters
+            // Parameter setzten
             $param_username = trim($_POST["username"]);
             
-            // Attempt to execute the prepared statement
+            // Ausfüheren
             if(mysqli_stmt_execute($stmt)){
-                /* store result */
+               
                 mysqli_stmt_store_result($stmt);
                 
                 if(mysqli_stmt_num_rows($stmt) == 1){
-                    $username_err = "This username is already taken.";
+                    $username_err = "Diese Username ist bereits vergeben";
                 } else{
                     $username = trim($_POST["username"]);
                 }
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Da ist ein Fehler aufgetreten ";
             }
 
-            // Close statement
+            // CSchließen
             mysqli_stmt_close($stmt);
         }
     }
     
-    // Validate password
+    // Passwort überprüfen
     if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter a password.";     
+        $password_err = "Bitte gebe eine Passwort ein";     
     } elseif(strlen(trim($_POST["password"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
+        $password_err = "Das Passwort muss mindestest 6 Zeichen lang sein";
     } else{
         $password = trim($_POST["password"]);
     }
     
-    // Validate confirm password
+    // Passwort überprüfen
     if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "Please confirm password.";     
+        $confirm_password_err = "Bitte bestätige das Passwort";     
     } else{
         $confirm_password = trim($_POST["confirm_password"]);
         if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Password did not match.";
+            $confirm_password_err = "Die Passwörter stimmen nicht so überein";
         }
     }
     
-    // Check input errors before inserting in database
+    // Input error überprüfen
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
-        // Prepare an insert statement
+        // Vorbereiten des SQL statments
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
+            
             mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
             
-            // Set parameters
+            // Parameter setzten
             $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+            $param_password = $password; 
+
             
-            // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
-                // Redirect to login page
+                
                 header("location: login.php");
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
