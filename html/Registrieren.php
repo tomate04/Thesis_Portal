@@ -36,7 +36,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Da ist ein Fehler aufgetreten ";
             }
 
-            // CSchließen
+            // Schließen
             mysqli_stmt_close($stmt);
         }
     }
@@ -79,7 +79,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 
                 header("location: login.php");
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Es ist ein fehler aufgetreten.";
             }
 
             // Close statement
