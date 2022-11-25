@@ -49,7 +49,7 @@ button {
 </head>    
 <body>    
     <center> <h1> Login </h1> </center>   
-    <form>  
+    <form method="POST">  
         <div class="container">   
             <label>Username : </label>   
             <input type="text" placeholder="Enter Username" name="username" required>  
@@ -66,49 +66,36 @@ button {
 <?php
     require_once "config.php";
    
-    if (!empty($_POST["login"]))
+
+    if(isset($_POST['login'])) 
+    {
+        require_once "config.php";
+        
+        $query = $link->prepare('SELECT `id` FROM `users` WHERE `username` = ? AND `password` = ?');
+        $query->bind_param('ss', $_POST['username'],($_POST['password']));
+        $query->execute();
+        $query->store_result();
+        $query->bind_result($id);
+
+        //Sind Benutzerdaten vorhanden und korrekt?
+        if($query->num_rows == 1)
         {
-    
-        $_username = $_POST["username"];
-        $_passwort = $_POST["passwort"];
-
-        # Befehl für die MySQL Datenbank
-        $_sql = "SELECT * FROM login_usernamen WHERE
-                    username='$_username' AND
-                    passwort='$_passwort'
-                    
-                LIMIT 1";
-
-        # Prüfen, ob der User in der Datenbank existiert !
-        $_res = mysqli_query($_sql, $link);
-        $_anzahl = @mysqli_num_rows($_res);
-
-        # Die Anzahl der gefundenen Einträge überprüfen. Maximal
-        # wird 1 Eintrag rausgefiltert (LIMIT 1). Wenn 0 Einträge
-        # gefunden wurden, dann gibt es keinen Usereintrag, der
-        # gültig ist. Keinen wo der Username und das Passwort stimmt
-        # und user_geloescht auch gleich 0 ist !
-        if ($_anzahl > 0)
-            {
-            echo "Der Login war erfolgreich.<br>";
-
-            # In der Session merken, dass der User eingeloggt ist !
-            $_SESSION["login"] = 1;
-
-            # Den Eintrag vom User in der Session speichern !
-            $_SESSION["user"] = mysqli_fetch_array($_res, MYSQL_ASSOC);
-
-            # Das Einlogdatum in der Tabelle setzen !
-            $_sql = "UPDATE login_usernamen SET letzter_login=NOW()
-                     WHERE id=".$_SESSION["user"]["id"];
-            mysqli_query($_sql);
-            }
+            $query->fetch();
+            $_SESSION['id'] = $id;
+            header('location: Profesor_Status.php');
+            exit();
+        }
         else
-            {
-            echo "Die Logindaten sind nicht korrekt.<br>";
-            }
+        {
+            $error = 'Ihre Anmeldedaten sind nicht korrekt. Bitte wiederholen Sie Ihre Eingabe.';
         }
 
+
+
+
+    }
+   
+    ?>
     
-    mysqli_close($link);
-?>
+     
+    
