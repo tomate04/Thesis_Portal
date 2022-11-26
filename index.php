@@ -141,39 +141,53 @@ th {
     <table name="suchergebnis" style="width:100%">
   
     <?php
+    require "html/config.php";
+    require "html/funktionen.php";
+    
+  
+    echo "<tr>";
+    echo "<th> Titel </th>";
+    echo "<th> Professor </th>";
+    echo "<th> Firma </th>";
+    echo "<th> Fachbereich </th>";
+    echo "<tr>";
+    
+    
+    $result = mysqli_query($link,"SELECT * FROM abschlussarbeit ");
+    
+    
+    
+    while($row = mysqli_fetch_array($result))
+    {
+    echo "<tr>";
+    echo "<td>" . $row['Titel'] . "</td>";
+    echo "<td>" . $row['Professor'] . "</td>";
+    echo "<td>" . $row['Firma'] . "</td>";
+    echo "<td>" . $row['Fachbereich'] . "</td>";
+    echo "</tr>";
+    }
+ 
    
+   
+
     if(isset($_POST["Button_Suche"])) 
-    { require_once "html\config.php";
-      
-      $Titel=$_POST['Titel_Suche'];
-      $Professor=$_POST['Professor_Suche'];
-      $Firma=$_POST['Firma_Suche'];
-      $Fachbereich=$_POST['Fachbereich_Suche'];
-      
-      echo "<tr>";
-      echo "<th> Titel </th>";
-      echo "<th> Professor </th>";
-      echo "<th> Firma </th>";
-      echo "<th> Fachbereich </th>";
-      echo "<tr>";
+    { 
+
+        
+        $Suche = 'Bio basierte Kunststoffe';
       
 
-      $result = mysqli_query($link,"SELECT * FROM abschlussarbeit ");
+        $result = mysqli_query($link,"SELECT Titel FROM abschlussarbeit WHERE Titel = '".$Suche."'");
+  
+        while($row = mysqli_fetch_array($result))
+        echo "<tr>";
+        echo "<td>" . $row['Titel'] . "</td>";
+        echo "</tr>";
       
-      
-      
-      while($row = mysqli_fetch_array($result))
-      {
-      echo "<tr>";
-      echo "<td>" . $row['Titel'] . "</td>";
-      echo "<td>" . $row['Professor'] . "</td>";
-      echo "<td>" . $row['Firma'] . "</td>";
-      echo "<td>" . $row['Fachbereich'] . "</td>";
-      echo "</tr>";
-      }
-      
-      
-      mysqli_close($link); }
+
+ 
+   
+     }
 
 ?>
     

@@ -64,10 +64,6 @@ th {
     echo "<th> Thema </th>";
     echo "<th> Status </th>";
     echo "<tr>";
-    
-  
-   
-  
   
     $result = mysqli_query($link,"SELECT * FROM anfragen WHERE Betreuer = '$prof' ");
     
