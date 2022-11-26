@@ -2,15 +2,29 @@
 require_once "config.php";
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
- 
+function validate($email)
+{
+  if (!preg_match('/^([a-z0-9\+\_\-\.]+)@([a-z0-9\+\_\-\.]{2,})(\.[a-z]{2,4})$/i', $email)) return false;
+
+  $domains = array('hs-flensburg.de','stud.hs-flensburg.de');
+  list(, $email_domain) = explode('@', $email, 2);
+  return !in_array($email_domain, $domains);
+} 
+
 // Daten nach dem Button verabeiten
 if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
     // Überprüfung der Email
     if(empty(trim($_POST["username"]))){
         $username_err = "Bitte geben sie eine Email ein";
-    } elseif(!preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', trim($_POST["username"]))){
-        $username_err = "Bitte geben sie eine Email adresse an ";
+    } 
+    if(!filter_var(trim($_POST["username"]), FILTER_VALIDATE_EMAIL))
+    {
+        $username_err = "Bitte geben sie eine Email ein";
+    } 
+   
+    elseif((validate($_POST["username"])))
+    {
+        $username_err = "Bitte geben sie eineEmail adresse  der Hochschule an ";
     } else{
         // Select Statmant vorbereiten
         $sql = "SELECT id FROM users WHERE username = ?";
