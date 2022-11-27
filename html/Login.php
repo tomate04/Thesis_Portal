@@ -65,7 +65,14 @@ button {
 
 <?php
     require_once "config.php";
-   
+    function is_student($email)
+    {
+      if (!preg_match('/^([a-z0-9\+\_\-\.]+)@([a-z0-9\+\_\-\.]{2,})(\.[a-z]{2,4})$/i', $email)) return false;
+    
+      $domains = array('stud.hs-flensburg.de');
+      list(, $email_domain) = explode('@', $email, 2);
+      return !in_array($email_domain, $domains);
+    } 
 
     if(isset($_POST['login'])) 
     {
@@ -80,10 +87,25 @@ button {
         //Sind Benutzerdaten vorhanden und korrekt?
         if($query->num_rows == 1)
         {
+            
             $query->fetch();
             $_SESSION['id'] = $id;
-            header('location: Profesor_Status.php');
-            exit();
+            $query->bind_result($id);
+            if(is_student($_POST['username']))
+            {
+                header('location: Profesor_Status.php');
+                exit();
+            }
+            else
+            {
+                header('location: Student_Anfrage.php');
+               
+                exit();
+            }
+           
+            
+
+
         }
         else
         {
