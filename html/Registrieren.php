@@ -22,7 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username_err = "Bitte geben sie eine Email ein";
     } 
    
-    elseif((validate($_POST["username"])))
+    elseif((validateC))
     {
         $username_err = "Bitte geben sie eineEmail adresse  der Hochschule an ";
     } else{
