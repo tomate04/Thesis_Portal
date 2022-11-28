@@ -2,6 +2,7 @@
 require_once "config.php";
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
+
 function validate($email)
 {
   if (!preg_match('/^([a-z0-9\+\_\-\.]+)@([a-z0-9\+\_\-\.]{2,})(\.[a-z]{2,4})$/i', $email)) return false;
@@ -13,6 +14,8 @@ function validate($email)
 
 // Daten nach dem Button verabeiten
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $vorname = $_POST["vorname"];
+    $nachname = $_POST["nachname"];
     // Überprüfung der Email
     if(empty(trim($_POST["username"]))){
         $username_err = "Bitte geben sie eine Email ein";
@@ -22,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username_err = "Bitte geben sie eine Email ein";
     } 
    
-    elseif((validateC))
+    elseif((validate($_POST["username"])))
     {
         $username_err = "Bitte geben sie eineEmail adresse  der Hochschule an ";
     } else{
@@ -76,21 +79,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Input error überprüfen
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-        
+        echo "imput passt";
         // Vorbereiten des SQL statments
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $sql = "INSERT INTO users (username, password , vorname , nachname) VALUES (?, ? ,? ,?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
-            
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-            
-            // Parameter setzten
-            $param_username = $username;
-            $param_password = $password; 
 
-            
+            mysqli_stmt_bind_param($stmt, "ssss", $param_username,$param_password, $vorname , $nachname);
+
+            // Parameter setzten
+
+            $param_password = $password;
+            $param_username = $username;
+
             if(mysqli_stmt_execute($stmt)){
-                
+
                 header("location: login.php");
             } else{
                 echo "Es ist ein fehler aufgetreten.";
@@ -99,7 +102,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Close statement
             mysqli_stmt_close($stmt);
         }
+        else{
+            echo "<pre>";
+            echo $stmt;
+            echo "<pre>";
+        }
     }
+
     
     // Close connection
     mysqli_close($link);
@@ -159,8 +168,12 @@ button {
    
             <label>Email : </label>   
             <input type="text" placeholder="Enter Email" name="username" required <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
-            <span class="invalid-feedback"><?php echo $username_err; ?></span> 
-            <label>Password : </label>   
+            <span class="invalid-feedback"><?php echo $username_err; ?></span>
+        <label>Vorname : </label>
+        <input name="vorname" type="text" value="Vorname">
+        <label>Nachnamen : </label>
+        <input name="nachname" type="text" value="Nachname">
+        <label>Password : </label>
             <input type="password" placeholder="Enter Password" name="password" required <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
             <span class="invalid-feedback"><?php echo $password_err; ?></span> 
             <div class="form-group">

@@ -64,9 +64,12 @@ th {
     echo "<th> Thema </th>";
     echo "<th> Status </th>";
     echo "<tr>";
-  
-    $result = mysqli_query($link,"SELECT * FROM anfragen WHERE Betreuer = '$prof' ");
-    
+
+
+    $result = mysqli_query($link,"SELECT * FROM anfragen WHERE Betreuer = 'Prof. Dr. rer. pol. Till Albert' ");
+    echo "<pre>";
+    print_r($result);
+echo "</pre>";
   
     while($row = mysqli_fetch_array($result))
     {

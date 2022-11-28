@@ -49,22 +49,18 @@
     }
  .logo {
         position: absolute;
-        top: 0px;
-        right: 0px;
-        size: 400;
+
         
         
     }
 
 .Title {
-    text-align: Top;
-    text-align: center;
-    font-size: 20;
+
     font-family: Arial, Helvetica, sans-serif;
   }
 .Suchfelder {
     float: left;
-    font-size: 10;
+
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
   }
