@@ -33,63 +33,74 @@ th {
   <div>
         <img src="../Images/Fh Flensburg_Logo.png"/>
     </div>
-    <h1 class="Title"> Status Portal </h1>  
+    <h1 class="Title"> Status Portal </h1>
+
     <div>
-    <tr >
+
+        <tr>
+
+        </tr>
             <td >
                  <h2 class="Suchfelder">Titel</h2>
                  <p class="Suchfelder"> <input name="Titel" > </p>
                  
             </td>
-            <td >
-                 <h2 class="Suchfelder">Studnet</h2>
-                 <p class="Suchfelder"> <input name="Studnet" > </p>
-                 
-            </td>
-            <td >
-                <h2 class="Suchfelder">Professor</h2>
-                <select  name="Betreuer" >
-                        <option >Prof. Dr. rer. pol. Till Albert</option>
-                        <option >Prof. Dr. rer. pol. habil. Marcus Brandenburg</option>
-                        <option >Prof. Dr. Sönke Cordts</option>
-                        <option >Prof. Dr. rer. pol. Jan Gerken</option>
-                        <option >Prof. Dr. rer. pol., MBA Thorsten Kümper</option>
-                        <option >Prof. Dr. Andreas Rusnjak</option>
-                        <option >Prof. Dr. rer. pol. Lasse Tausch-Nebel</option>
-                        <option >Prof. Dr. rer. pol. Ulrich Welland</option>
-                
-                    </select>
-           </td>
-           
+
+        <td >
+            <h2 class="Suchfelder">Fachbereich</h2>
+            <p class="Suchfelder"> <input name="Fachbereich" > </p>
+
+        </td>
+        </td>
+        <td >
+            <h2 class="Suchfelder">Professor</h2>
+            <select  name="Prof_Email" >
+                <option >till.albert@hs-flensburg.de</option>
+                <option >Prof. Dr. rer. pol. habil. Marcus Brandenburg</option>
+                <option >Prof. Dr. Sönke Cordts</option>
+                <option >Prof. Dr. rer. pol. Jan Gerken</option>
+                <option >Prof. Dr. rer. pol., MBA Thorsten Kümper</option>
+                <option >Prof. Dr. Andreas Rusnjak</option>
+                <option >Prof. Dr. rer. pol. Lasse Tausch-Nebel</option>
+                <option >Prof. Dr. rer. pol. Ulrich Welland</option>
+
+            </select>
+        </td>
+
+
            <div >
            <input name="Anfrage_Stelle" type="submit" value="Anfrage stellen" >
            </div>
-           <table name="Anfragestatus" style="width:100%">    
+           <table name="Anfragestatus" style="width:100%">
+
       <form\>
         
    
       
 <?php
+session_start();
 require_once "config.php";
+$id =$_SESSION['id'];
+
 if(isset($_POST["Anfrage_Stelle"]))
 {
-  
+
     
    
-    $sql = "INSERT INTO anfragen (Thema, Betreuer, Student, Status) VALUES (?, ?, ? ,?)";
+    $sql = "INSERT INTO abschlussarbeit (Titel, Fachbereich, Status , User_ID , Prof_Email ) VALUES (?, ?, ?, ?,?)";
 
     if($stmt = mysqli_prepare($link, $sql)){
         
-       
-        
 
-        mysqli_stmt_bind_param($stmt, "ssss", $param_Titel, $param_Betreuer, $param_Studnet ,$param_Status );
+
+        mysqli_stmt_bind_param($stmt, "sssss", $param_Titel, $param_Fachbereich, $param_Status ,$param_ID ,$param_Prof_Email);
         
         // Parameter setzten
         $param_Titel = $_POST['Titel'];
-        $param_Studnet = $_POST['Studnet'];
-        $param_Betreuer = $_POST['Betreuer'];
+        $param_Prof_Email = $_POST['Prof_Email'];
+        $param_Fachbereich = $_POST['Fachbereich'];
         $param_Status = 'Angefragt';
+        $param_ID = $id;
       
         
 
@@ -100,7 +111,7 @@ if(isset($_POST["Anfrage_Stelle"]))
             
             
         } else{
-            echo "Oops! Something went wrong. Please try again later.";
+            echo "Es ist ein Fehler aufgetreten";
         }
 
         // Close statement
@@ -111,22 +122,24 @@ if(isset($_POST["Anfrage_Stelle"]))
 
 
 }
-echo "<tr>";
-    echo "<th> Thema </th>";
-    echo "<th> Betreuer </th>";
+    echo "<tr>";
+    echo "<th> Titel </th>";
+    echo "<th> Fachbereich </th>";
+    echo "<th> Prof Email </th>";
     echo "<th> Status </th>";
     echo "<tr>";
     
 
-    $result = mysqli_query($link,"SELECT * FROM anfragen WHERE student = 'Felix'");
+    $result = mysqli_query($link,"SELECT * FROM abschlussarbeit WHERE User_ID = $id");
     
     
     
     while($row = mysqli_fetch_array($result))
     {
     echo "<tr>";
-    echo "<td>" . $row['Thema'] . "</td>";
-    echo "<td>" . $row['Betreuer'] . "</td>";
+    echo "<td>" . $row['Titel'] . "</td>";
+    echo "<td>" . $row['Fachbereich'] . "</td>";
+    echo "<td>" . $row['Prof_Email'] . "</td>";
     echo "<td>" . $row['Status'] . "</td>";
  
     echo "</tr>";

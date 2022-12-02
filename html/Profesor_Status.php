@@ -55,33 +55,50 @@ th {
 </style>            
 
 <?php
+session_start();
+$id =$_SESSION['id'];
 
     require_once "config.php";
      
     
     echo "<tr>";
-    echo "<th> Student </th>";
-    echo "<th> Thema </th>";
+    echo "<th> Titel </th>";
+    echo "<th> Fachbereich </th>";
     echo "<th> Status </th>";
     echo "<tr>";
 
 
-    $result = mysqli_query($link,"SELECT * FROM anfragen WHERE Betreuer = 'Prof. Dr. rer. pol. Till Albert' ");
-    echo "<pre>";
-    print_r($result);
-echo "</pre>";
-  
-    while($row = mysqli_fetch_array($result))
-    {
-    echo "<tr>";
-    echo "<td>" . $row['Student'] . "</td>";
-    echo "<td>" . $row['Thema'] . "</td>";
-    echo "<td>" . $row['Status'] . "</td>";
-    echo "</tr>";
+    require_once "config.php";
+    $username = "";
+    $query = $link->prepare('SELECT `username` FROM `users` WHERE id = ?');
+    $query->bind_param('s', $id,);
+    $query->execute();
+    $query->store_result();
+    $query->bind_result($username);
+
+$username = "till.albert@hs-flensburg.de";
+
+
+$result = mysqli_query($link,"SELECT * FROM abschlussarbeit WHERE Prof_Email = '$username' ");
+
+
+
+
+if($query->num_rows == 1)
+{
+    while ($row = mysqli_fetch_array($result)) {
+        echo "<tr>";
+        echo "<td>" . $row['Titel'] . "</td>";
+        echo "<td>" . $row['Fachbereich'] . "</td>";
+        echo "<td>" . $row['Status'] . "</td>";
+        echo "</tr>";
     }
-    
-    
+
+
     mysqli_close($link);
+}
+else
+    echo "es ist ein Fehler aufgetreten";
 if(isset($_POST["Anfrage_Beantworten"]))
 {
 

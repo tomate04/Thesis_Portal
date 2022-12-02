@@ -139,16 +139,15 @@ th {
     <?php
     require "html/config.php";
     require "html/funktionen.php";
+
     
   
     echo "<tr>";
     echo "<th> Titel </th>";
     echo "<th> Professor </th>";
-    echo "<th> Firma </th>";
     echo "<th> Fachbereich </th>";
     echo "<tr>";
-    
-    
+
     $result = mysqli_query($link,"SELECT * FROM abschlussarbeit ");
     
     
@@ -157,8 +156,8 @@ th {
     {
     echo "<tr>";
     echo "<td>" . $row['Titel'] . "</td>";
-    echo "<td>" . $row['Professor'] . "</td>";
-    echo "<td>" . $row['Firma'] . "</td>";
+    echo "<td>" . $row['Prof_Email'] . "</td>";
+
     echo "<td>" . $row['Fachbereich'] . "</td>";
     echo "</tr>";
     }

@@ -65,6 +65,8 @@ button {
 
 <?php
     require_once "config.php";
+    session_start();
+
     function is_student($email)
     {
       if (!preg_match('/^([a-z0-9\+\_\-\.]+)@([a-z0-9\+\_\-\.]{2,})(\.[a-z]{2,4})$/i', $email)) return false;
@@ -85,21 +87,30 @@ button {
         $query->bind_result($id);
 
         //Sind Benutzerdaten vorhanden und korrekt?
+
         if($query->num_rows == 1)
         {
-            
             $query->fetch();
+
             $_SESSION['id'] = $id;
+
+            session_id($id);
             $query->bind_result($id);
             if(is_student($_POST['username']))
             {
+                echo '<script>alert("Refolgreich angemeldet")</script>';
                 header('location: Profesor_Status.php');
+
+
                 exit();
             }
             else
             {
+
+                echo '<script>alert("Refolgreich angemeldet")</script>';
                 header('location: Student_Anfrage.php');
-               
+
+
                 exit();
             }
            
