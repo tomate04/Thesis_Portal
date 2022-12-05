@@ -4,18 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anfrage</title>
-    <form method="POST">
-    
-    <td >
-                 <h2 class="Suchfelder">Student</h2>
-                 <p class="Suchfelder"> <input name="Student" > </p>
-                 
-            </td>
-            <div >
-           <input name="Anfrage_Beantworten" type="submit" value="Anfrage beantworten" >
-    </div>
-    </form>
+
     
 </head>
 <body>
@@ -27,10 +16,22 @@
     <h1 class="Title"> Status Portal Prof Ansicht </h1>  
     <div>
     <tr >
+        <title>Anfrage</title>
+        <form method="POST">
+
+            <td >
+                <h2 class="Suchfelder">Titel</h2>
+                <p class="Suchfelder"> <input name="Titel" > </p>
+
+            </td>
+            <div >
+                <input class="button-blau" name="Anfrage_Annehmen" type="submit" value="Annehmen" >
+                <input class="button-orange" name="Anfrage_Ablehnen" type="submit" value="Ablehnen" >
+            </div>
+        </form>
          
-    <table name="suchergebnis" style="width:100%">    
-        
-          
+    <table name="suchergebnis" style="width:100%">
+
 <style>
       table {
   border-collapse: collapse;
@@ -52,11 +53,38 @@ th {
   color: rgb(43, 47, 136)
  
 }
+      .button-blau {
+          background-color: rgb(43, 47, 136);
+          border: none;
+          color: white;
+          padding: 8px 35px;
+          text-align: right;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 10px;
+          border-radius: 18px;
+          font-family: Arial, Helvetica, sans-serif;
+
+      }
+      .button-orange {
+          background-color: rgb(236, 103, 7);
+          border: none;
+          color: white;
+          padding: 8px 35px;
+          text-align: right;
+          text-decoration: none;
+          display: inline-block;
+          border-radius: 18px;
+          font-size: 10px;
+          font-family: Arial, Helvetica, sans-serif;
+      }
 </style>            
 
 <?php
 session_start();
 $id =$_SESSION['id'];
+$username =$_SESSION['username'];
+
 
     require_once "config.php";
      
@@ -69,23 +97,11 @@ $id =$_SESSION['id'];
 
 
     require_once "config.php";
-    $username = "";
-    $query = $link->prepare('SELECT `username` FROM `users` WHERE id = ?');
-    $query->bind_param('s', $id,);
-    $query->execute();
-    $query->store_result();
-    $query->bind_result($username);
 
-$username = "till.albert@hs-flensburg.de";
-
-
-$result = mysqli_query($link,"SELECT * FROM abschlussarbeit WHERE Prof_Email = '$username' ");
+    $result = mysqli_query($link,"SELECT * FROM abschlussarbeit WHERE Prof_Email = '".$username."' ");
 
 
 
-
-if($query->num_rows == 1)
-{
     while ($row = mysqli_fetch_array($result)) {
         echo "<tr>";
         echo "<td>" . $row['Titel'] . "</td>";
@@ -96,24 +112,20 @@ if($query->num_rows == 1)
 
 
     mysqli_close($link);
-}
-else
-    echo "es ist ein Fehler aufgetreten";
-if(isset($_POST["Anfrage_Beantworten"]))
+
+
+if(isset($_POST["Anfrage_Annehmen"]))
 {
 
-
 require_once "config.php";
-$student = $_POST['Student'];
+$Titel = $_POST['Titel'];
 
-  $sql = "UPDATE anfragen Set Status ='in bearbeitung";
+  $sql = "UPDATE abschlussarbeit SET STATUS = 'In Bearbeitung' WHERE Titel = $Titel";
+
+
   if($stmt = mysqli_prepare($link, $sql)){
       
-      mysqli_stmt_bind_param($stmt, "s", $param_Status );
-      
-      // Parameter setzten
-     
-      $param_Status = 'In Bearbeitung';
+
       
       if(mysqli_stmt_execute($stmt)){
           
@@ -128,6 +140,35 @@ $student = $_POST['Student'];
       mysqli_stmt_close($stmt);
   }
 }
+if(isset($_POST["Anfrage_Ablehnen"]))
+{
 
+    require_once "config.php";
+    $Titel = $_POST['Titel'];
+
+    $sql = "UPDATE abschlussarbeit SET STATUS = 'In Bearbeitung' WHERE Titel = $Titel";
+
+
+    if($stmt = mysqli_prepare($link, $sql)){
+
+        mysqli_stmt_bind_param($stmt, "ss", $param_Status );
+
+        // Parameter setzten
+
+        $param_Status = 'Abgelehnt';
+
+        if(mysqli_stmt_execute($stmt)){
+
+            echo '<script>alert("Status wurde verändert")</script>';
+
+
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
+        }
+
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+}
 
 ?>

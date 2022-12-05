@@ -157,7 +157,6 @@ th {
     echo "<tr>";
     echo "<td>" . $row['Titel'] . "</td>";
     echo "<td>" . $row['Prof_Email'] . "</td>";
-
     echo "<td>" . $row['Fachbereich'] . "</td>";
     echo "</tr>";
     }

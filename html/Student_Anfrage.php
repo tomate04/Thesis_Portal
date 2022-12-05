@@ -85,11 +85,10 @@ $id =$_SESSION['id'];
 if(isset($_POST["Anfrage_Stelle"]))
 {
 
-    
-   
     $sql = "INSERT INTO abschlussarbeit (Titel, Fachbereich, Status , User_ID , Prof_Email ) VALUES (?, ?, ?, ?,?)";
 
-    if($stmt = mysqli_prepare($link, $sql)){
+    if($stmt = mysqli_prepare($link, $sql))
+    {
         
 
 
@@ -101,10 +100,7 @@ if(isset($_POST["Anfrage_Stelle"]))
         $param_Fachbereich = $_POST['Fachbereich'];
         $param_Status = 'Angefragt';
         $param_ID = $id;
-      
-        
 
-        
         if(mysqli_stmt_execute($stmt)){
             
             echo '<script>alert("Anfrage wurde gestellt")</script>';

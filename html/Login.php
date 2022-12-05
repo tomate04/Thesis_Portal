@@ -93,6 +93,8 @@ button {
             $query->fetch();
 
             $_SESSION['id'] = $id;
+            $username = $_POST['username'];
+            $_SESSION['username'] = $username;
 
             session_id($id);
             $query->bind_result($id);
