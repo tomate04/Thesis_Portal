@@ -28,11 +28,31 @@
                 <input class="button-blau" name="Anfrage_Annehmen" type="submit" value="Annehmen" >
                 <input class="button-orange" name="Anfrage_Ablehnen" type="submit" value="Ablehnen" >
             </div>
+            <div>
+                <input class="button3" name="abmelden" type="submit" value="abmelden" >
+            </div>
         </form>
          
     <table name="suchergebnis" style="width:100%">
 
 <style>
+
+    .button3 {
+        background-color: rgb(193, 47, 6);
+        border: none;
+        color: white;
+        padding: 8px 35px;
+        text-align: right;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+        border-radius: 18px;
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute;
+        right: 10px;
+        top: 5px;
+
+    }
       table {
   border-collapse: collapse;
   width: 100%;
@@ -124,9 +144,7 @@ $Titel = $_POST['Titel'];
 
 
   if($stmt = mysqli_prepare($link, $sql)){
-      
 
-      
       if(mysqli_stmt_execute($stmt)){
           
           echo '<script>alert("Status wurde verändert")</script>';
@@ -151,7 +169,7 @@ if(isset($_POST["Anfrage_Ablehnen"]))
 
     if($stmt = mysqli_prepare($link, $sql)){
 
-        mysqli_stmt_bind_param($stmt, "ss", $param_Status );
+        mysqli_stmt_bind_param($stmt, "s", $param_Status );
 
         // Parameter setzten
 
@@ -170,5 +188,11 @@ if(isset($_POST["Anfrage_Ablehnen"]))
         mysqli_stmt_close($stmt);
     }
 }
+if(isset($_POST["abmelden"]))
+{
 
+    session_destroy();
+    header('location: ../index.php');
+
+}
 ?>

@@ -168,16 +168,17 @@ th {
     { 
 
         
-        $Suche = 'Bio basierte Kunststoffe';
+        $Suche = $_POST['Titel_Suche'];
       
 
-        $result = mysqli_query($link,"SELECT Titel FROM abschlussarbeit WHERE Titel = '".$Suche."'");
+        $result = mysqli_query($link,"SELECT * FROM abschlussarbeit WHERE Titel = $Suche");
   
         while($row = mysqli_fetch_array($result))
-        echo "<tr>";
+            echo "<tr>";
         echo "<td>" . $row['Titel'] . "</td>";
+        echo "<td>" . $row['Prof_Email'] . "</td>";
+        echo "<td>" . $row['Fachbereich'] . "</td>";
         echo "</tr>";
-      
 
  
    

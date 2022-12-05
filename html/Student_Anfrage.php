@@ -26,8 +26,37 @@ tr:nth-child(even){background-color: #f2f2f2}
 th {
   background-color: white;
   color: rgb(43, 47, 136)
- 
+
 }
+      .button3 {
+          background-color: rgb(193, 47, 6);
+          border: none;
+          color: white;
+          padding: 8px 35px;
+          text-align: right;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 20px;
+          border-radius: 18px;
+          font-family: Arial, Helvetica, sans-serif;
+          position: absolute;
+          right: 10px;
+          top: 5px;
+
+      }
+      .button-blau {
+          background-color: rgb(43, 47, 136);
+          border: none;
+          color: white;
+          padding: 8px 35px;
+          text-align: right;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 10px;
+          border-radius: 18px;
+          font-family: Arial, Helvetica, sans-serif;
+
+      }
 </style> 
 <form method="post">
   <div>
@@ -69,8 +98,11 @@ th {
 
 
            <div >
-           <input name="Anfrage_Stelle" type="submit" value="Anfrage stellen" >
+           <input class="button-blau" name="Anfrage_Stelle" type="submit" value="Anfrage stellen" >
            </div>
+        <div>
+            <input class="button3" name="abmelden" type="submit" value="abmelden" >
+        </div>
            <table name="Anfragestatus" style="width:100%">
 
       <form\>
@@ -87,11 +119,9 @@ if(isset($_POST["Anfrage_Stelle"]))
 
     $sql = "INSERT INTO abschlussarbeit (Titel, Fachbereich, Status , User_ID , Prof_Email ) VALUES (?, ?, ?, ?,?)";
 
+
     if($stmt = mysqli_prepare($link, $sql))
     {
-        
-
-
         mysqli_stmt_bind_param($stmt, "sssss", $param_Titel, $param_Fachbereich, $param_Status ,$param_ID ,$param_Prof_Email);
         
         // Parameter setzten
@@ -143,7 +173,14 @@ if(isset($_POST["Anfrage_Stelle"]))
     
     
     mysqli_close($link);
-    
+
+if(isset($_POST["abmelden"]))
+{
+
+    session_destroy();
+    header('location: ../index.php');
+
+}
     
 //$to_email = "felixbloch13@gmail.com";
 //$subject = "Anfrage für eine Abschlussarbeit";
