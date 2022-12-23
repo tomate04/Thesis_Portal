@@ -66,7 +66,7 @@ button {
 <?php
     require_once "config.php";
     session_start();
-
+    //schauen ob Student oder Prof
     function is_student($email)
     {
       if (!preg_match('/^([a-z0-9\+\_\-\.]+)@([a-z0-9\+\_\-\.]{2,})(\.[a-z]{2,4})$/i', $email)) return false;

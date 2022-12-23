@@ -137,56 +137,56 @@ $username =$_SESSION['username'];
 if(isset($_POST["Anfrage_Annehmen"]))
 {
 
+
 require_once "config.php";
-$Titel = $_POST['Titel'];
-
-  $sql = "UPDATE abschlussarbeit SET STATUS = 'In Bearbeitung' WHERE Titel = $Titel";
 
 
-  if($stmt = mysqli_prepare($link, $sql)){
+$conn = new mysqli("localhost", "root", "", "portal");
 
-      if(mysqli_stmt_execute($stmt)){
-          
-          echo '<script>alert("Status wurde verändert")</script>';
-          
-          
-      } else{
-          echo "Oops! Something went wrong. Please try again later.";
-      }
+// Variablen für Update-Statement definieren
+    $Titel = $_POST['Titel'];
+    $Status = "In Bearbeitung";
 
-      // Close statement
-      mysqli_stmt_close($stmt);
-  }
+
+// Update-Statement vorbereiten
+    $stmt = $conn->prepare("UPDATE abschlussarbeit SET Status = ? WHERE Titel = ?");
+
+// Variablen an das Statement binden
+    $stmt->bind_param("ss", $Status, $Titel);
+
+// Statement ausführen
+    $stmt->execute();
+
+// Verbindung zur Datenbank schließen
+    $conn->close();
+
+
 }
 if(isset($_POST["Anfrage_Ablehnen"]))
 {
 
     require_once "config.php";
+
+    $conn = new mysqli("localhost", "root", "", "portal");
+
+// Variablen für Update-Statement definieren
     $Titel = $_POST['Titel'];
-
-    $sql = "UPDATE abschlussarbeit SET STATUS = 'In Bearbeitung' WHERE Titel = $Titel";
-
-
-    if($stmt = mysqli_prepare($link, $sql)){
-
-        mysqli_stmt_bind_param($stmt, "s", $param_Status );
-
-        // Parameter setzten
-
-        $param_Status = 'Abgelehnt';
-
-        if(mysqli_stmt_execute($stmt)){
-
-            echo '<script>alert("Status wurde verändert")</script>';
+    $Status = "Abgelehnt";
 
 
-        } else{
-            echo "Oops! Something went wrong. Please try again later.";
-        }
+// Update-Statement vorbereiten
+    $stmt = $conn->prepare("UPDATE abschlussarbeit SET Status = ? WHERE Titel = ?");
 
-        // Close statement
-        mysqli_stmt_close($stmt);
-    }
+// Variablen an das Statement binden
+    $stmt->bind_param("ss", $Status, $Titel);
+
+// Statement ausführen
+    $stmt->execute();
+
+// Verbindung zur Datenbank schließen
+    $conn->close();
+
+
 }
 if(isset($_POST["abmelden"]))
 {

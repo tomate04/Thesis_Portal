@@ -114,8 +114,8 @@ th {
                 <p class="Suchfelder"><input name="Professor_Suche"> </p>
            </td>
            <td>
-            <h2 class="Suchfelder">Firma</h2>
-            <p class="Suchfelder"><input name="Firma_Suche" placeholder="Nur wenn nötig"> </p>
+            <h2 class="Suchfelder">Abstract</h2>
+            <p class="Suchfelder"><input name="Abstract" > </p>
         </td>
         </tr>
         <tr>
@@ -123,12 +123,11 @@ th {
                   <h2>Fachbereich</h2>
                   <p>
                     <select name="Fachbereich_Suche" class="">
-                        <option value="alle">alle anzeigen</option>
-                        <option value="ps1">Fachbereich 1: Maschinenbau, Verfahrenstechnik und Maritime Technologien</option>
-                        <option value="ps2">Fachbereich 2: Energie und Biotechnologie</option>
-                        <option value="ps3">Fachbereich 3: Information und Kommunikation</option>
-                        <option value="ps4">Fachbereich 4: Wirtschaft</option>
-
+                        <option value="">alle anzeigen</option>
+                        <option value="Fachbereich 1">Fachbereich 1: Maschinenbau, Verfahrenstechnik und Maritime Technologien</option>
+                        <option value="Fachbereich 2">Fachbereich 2: Energie und Biotechnologie</option>
+                        <option value="Fachbereich 3">Fachbereich 3: Information und Kommunikation</option>
+                        <option value="Fachbereich 4">Fachbereich 4: Wirtschaft</option>
                     </select>
                   </p>
             </td>
@@ -140,51 +139,80 @@ th {
     require "html/config.php";
     require "html/funktionen.php";
 
-    
-  
     echo "<tr>";
     echo "<th> Titel </th>";
+    echo "<th> Abstract </th>";
     echo "<th> Professor </th>";
     echo "<th> Fachbereich </th>";
+
     echo "<tr>";
 
-    $result = mysqli_query($link,"SELECT * FROM abschlussarbeit ");
-    
-    
-    
-    while($row = mysqli_fetch_array($result))
-    {
-    echo "<tr>";
-    echo "<td>" . $row['Titel'] . "</td>";
-    echo "<td>" . $row['Prof_Email'] . "</td>";
-    echo "<td>" . $row['Fachbereich'] . "</td>";
-    echo "</tr>";
-    }
- 
-   
-   
 
-    if(isset($_POST["Button_Suche"])) 
-    { 
 
-        
-        $Suche = $_POST['Titel_Suche'];
-      
+    if(isset($_POST["Button_Suche"])) {
 
-        $result = mysqli_query($link,"SELECT * FROM abschlussarbeit WHERE Titel = $Suche");
-  
-        while($row = mysqli_fetch_array($result))
+
+
+        // Verbindung zur Datenbank herstellen
+        $conn = new mysqli("localhost", "root", "", "portal");
+
+        // Variablen für Suchkriterien definieren
+        $title = $_POST['Titel_Suche'];
+        $department = $_POST['Fachbereich_Suche'];
+        $abstract = $_POST['Abstract'];
+        $professor = $_POST['Professor_Suche'];
+
+        // Array für Suchkriterien erstellen
+        $criteria = array();
+
+        // Füge Suchkriterien zum Array hinzu, wenn sie gesetzt sind
+        if (!empty($title)) {
+            $criteria[] = "Titel LIKE '%$title%'";
+        }
+        if (!empty($department)) {
+            $criteria[] = "Fachbereich = '$department'";
+        }
+        if (!empty($abstract)) {
+            $criteria[] = "Abstract LIKE '%$abstract%'";
+        }
+        if (!empty($professor)) {
+            $criteria[] = "Prof_Email = '$professor'";
+        }
+
+        // SQL- Statement zusammensetzen
+        $sql = "SELECT * FROM abschlussarbeit";
+
+        // Füge WHERE-Klausel und Suchkriterien zum SQL- Statement hinzu, wenn sie gesetzt sind
+        if (!empty($criteria)) {
+            $sql .= " WHERE " . implode(" AND ", $criteria);
+        }
+
+        // Statement vorbereiten
+        $stmt = $conn->prepare($sql);
+
+        // Statement ausführen
+        $stmt->execute();
+
+
+        // Ergebnisse abrufen
+        $result = $stmt->get_result();
+
+        // Ergebnisse durchlaufen und ausgeben
+        while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-        echo "<td>" . $row['Titel'] . "</td>";
-        echo "<td>" . $row['Prof_Email'] . "</td>";
-        echo "<td>" . $row['Fachbereich'] . "</td>";
-        echo "</tr>";
+            echo "<td>" . $row['Titel'] . "</td>";
+            echo "<td>" . $row['Abstract'] . "</td>";
+            echo "<td>" . $row['Prof_Email'] . "</td>";
+            echo "<td>" . $row['Fachbereich'] . "</td>";
+            echo "</tr>";
+        }
 
- 
-   
-     }
+        // Verbindung zur Datenbank schließen
+        $conn->close();
 
-?>
+    }
+
+    ?>
     
 </body>     
 </html>  

@@ -85,13 +85,13 @@ th {
             <h2 class="Suchfelder">Professor</h2>
             <select  name="Prof_Email" >
                 <option >till.albert@hs-flensburg.de</option>
-                <option >Prof. Dr. rer. pol. habil. Marcus Brandenburg</option>
-                <option >Prof. Dr. Sönke Cordts</option>
-                <option >Prof. Dr. rer. pol. Jan Gerken</option>
-                <option >Prof. Dr. rer. pol., MBA Thorsten Kümper</option>
-                <option >Prof. Dr. Andreas Rusnjak</option>
-                <option >Prof. Dr. rer. pol. Lasse Tausch-Nebel</option>
-                <option >Prof. Dr. rer. pol. Ulrich Welland</option>
+                <option >marcus.brandenburg@hs-flensburg.de</option>
+                <option >soenke.cordts@hs-flensburg.de</option>
+                <option >jan.gerken@hs-flensburg.de</option>
+                <option >thorsten.kuemper@hs-flensburg.de</option>
+                <option >kai.petersen@hs-flensburg.de</option>
+                <option >lasse.tausch-nebel@hs-flensburg.de</option>
+                <option >ulrich.welland@hs-flensburg.de</option>
 
             </select>
         </td>
